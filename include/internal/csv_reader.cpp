@@ -127,7 +127,7 @@ namespace csv {
 
         /** Guess delimiter and header row */
         if (format.guess_delim()) {
-            auto guess_result = guess_format(filename, format.get_possible_delims());
+            auto guess_result = guess_format(filename, format.get_delims());
             format.delimiter({guess_result.delim}).header_row(guess_result.header_row);
         }
 

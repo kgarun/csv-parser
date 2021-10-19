@@ -110,7 +110,7 @@ namespace csv {
         CONSTEXPR bool is_quoting_enabled() const { return !this->no_quote; }
         CONSTEXPR char get_quote_char() const { return this->quote_char; }
         CONSTEXPR int get_header() const { return this->header; }
-        std::vector<char> get_possible_delims() const { return this->possible_delimiters; }
+        std::vector<char> get_delims() const { return this->possible_delimiters; }
         std::vector<char> get_trim_chars() const { return this->trim_chars; }
         CONSTEXPR VariableColumnPolicy get_variable_column_policy() const { return this->variable_column_policy; }
         #endif

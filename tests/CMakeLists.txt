@@ -35,3 +35,6 @@ add_test(
     COMMAND csv_test
     WORKING_DIRECTORY ${CSV_ROOT_DIR}
 )
+
+add_executable(test_multi_delimiters test_multi_delimiters.cpp)
+target_link_libraries(test_multi_delimiters csv)
