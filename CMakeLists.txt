@@ -27,7 +27,6 @@ if(MSVC)
 else()
 	# Ignore Visual Studio pragma regions
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
-  #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} --coverage -Og")
 endif(MSVC)
 
 set(CSV_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
@@ -64,24 +63,6 @@ if (CSV_DEVELOPER)
         -Wconversion -Wno-sign-conversion")
     endif()
 
-    # Generate a single header library
-    if(CMAKE_VERSION VERSION_LESS "3.12" OR ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-      find_package(PythonInterp 3 QUIET)
-    else()
-      find_package(Python3 COMPONENTS Interpreter)
-    endif()
-    if(Python3_Interpreter_FOUND OR PYTHONINTERP_FOUND)
-      add_custom_target(generate_single_header
-          COMMAND ${Python3_EXECUTABLE} single_header.py > single_include/csv.hpp
-          COMMAND ${Python3_EXECUTABLE} single_header.py > single_include_test/csv.hpp
-          WORKING_DIRECTORY ${CSV_ROOT_DIR}
-      )
-      # Single header compilation test
-      add_subdirectory(single_include_test)
-    else()
-      message(WARNING "Python3 not found, skipping target 'generate_single_header'.")
-    endif()
-
     # Documentation
     find_package(Doxygen QUIET)
     if(DOXYGEN_FOUND)
@@ -96,18 +77,4 @@ if (CSV_DEVELOPER)
     ## Tests
     enable_testing()
     add_subdirectory("tests")
-
-    # Code coverage
-    #find_program( GCOV_PATH gcov )
-    #if(GCOV_PATH)
-    #    set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
-    #    include(CodeCoverage)
-    #    append_coverage_compiler_flags()
-    #    set(ENV{CSV_TEST_ROOT} ${CSV_TEST_DIR})
-    #    setup_target_for_coverage_gcovr_html(
-    #      NAME csv_coverage
-    #      EXECUTABLE csv_test
-    #      EXCLUDE "tests/*"
-    #    )
-    #endif()
 endif()

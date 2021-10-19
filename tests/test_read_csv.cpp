@@ -12,7 +12,7 @@ using std::vector;
 using std::string;
 
 TEST_CASE( "Test Parse Flags", "[test_parse_flags]" ) {
-    REQUIRE(internals::make_parse_flags(',', '"')[162] == internals::ParseFlags::QUOTE);
+    REQUIRE(internals::make_parse_flags({','}, '"')[162] == internals::ParseFlags::QUOTE);
 }
 
 // Test Main Functions

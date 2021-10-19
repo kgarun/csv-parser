@@ -37,10 +37,10 @@ namespace csv {
             const ColNamesPtr& col_names
         ) : _col_names(col_names) {
             if (format.no_quote) {
-                _parse_flags = internals::make_parse_flags(format.get_delim());
+                _parse_flags = internals::make_parse_flags(format.get_possible_delims());
             }
             else {
-                _parse_flags = internals::make_parse_flags(format.get_delim(), format.quote_char);
+                _parse_flags = internals::make_parse_flags(format.get_possible_delims(), format.quote_char);
             }
 
             _ws_flags = internals::make_ws_flags(
