@@ -13,7 +13,7 @@ TEST_CASE("CSVFormat - Overlapping Characters", "[csv_format_overlap]") {
 
     SECTION("Tab") {
         try {
-            format.delimiter('\t').quote('"').trim({ '\t' });
+            format.delimiter({'\t'}).quote('"').trim({ '\t' });
         }
         catch (std::runtime_error& err) {
             err_caught = true;

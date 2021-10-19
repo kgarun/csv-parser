@@ -8,16 +8,18 @@
 #include "csv_format.hpp"
 
 namespace csv {
-    CSV_INLINE CSVFormat& CSVFormat::delimiter(char delim) {
-        this->possible_delimiters = { delim };
+    CSV_INLINE CSVFormat& CSVFormat::delimiter(const std::vector<char> & delim) {
+        this->possible_delimiters = delim;
+        is_default_delimiter_ = false;
         this->assert_no_char_overlap();
         return *this;
     }
 
-    CSV_INLINE CSVFormat& CSVFormat::delimiter(const std::vector<char> & delim) {
-        this->possible_delimiters = delim;
-        this->assert_no_char_overlap();
-        return *this;
+    CSV_INLINE CSVFormat& CSVFormat::possible_delimiter(const std::vector<char> & delim) {
+      this->possible_delimiters = delim;
+      is_default_delimiter_ = true;
+      this->assert_no_char_overlap();
+      return *this;
     }
 
     CSV_INLINE CSVFormat& CSVFormat::quote(char quote) {

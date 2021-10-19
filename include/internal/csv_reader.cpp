@@ -103,7 +103,7 @@ namespace csv {
             char current_delim = delims[0];
 
             for (char cand_delim : delims) {
-                auto result = calculate_score(head, format.delimiter(cand_delim));
+                auto result = calculate_score(head, format.delimiter({cand_delim}));
 
                 if ((size_t)result.score > max_score) {
                     max_score = (size_t)result.score;
@@ -128,7 +128,7 @@ namespace csv {
         /** Guess delimiter and header row */
         if (format.guess_delim()) {
             auto guess_result = guess_format(filename, format.get_possible_delims());
-            format.delimiter(guess_result.delim).header_row(guess_result.header_row);
+            format.delimiter({guess_result.delim}).header_row(guess_result.header_row);
         }
 
         return internals::_get_col_names(head, format);
@@ -158,7 +158,7 @@ namespace csv {
         /** Guess delimiter and header row */
         if (format.guess_delim()) {
             auto guess_result = internals::_guess_format(head, format.possible_delimiters);
-            format.delimiter(guess_result.delim);
+            format.delimiter({guess_result.delim});
             format.header = guess_result.header_row;
             this->_format = format;
         }

@@ -31,25 +31,26 @@ namespace csv {
     };
 
     /** Stores information about how to parse a CSV file.
-     *  Can be used to construct a csv::CSVReader. 
+     *  Can be used to construct a csv::CSVReader.
      */
     class CSVFormat {
     public:
         /** Settings for parsing a RFC 4180 CSV file */
         CSVFormat() = default;
 
-        /** Sets the delimiter of the CSV file
+        /** Sets a list of delimiters
          *
-         *  @throws `std::runtime_error` thrown if trim, quote, or possible delimiting characters overlap
+         *  @throws `std::runtime_error` thrown if trim, quote, or delimiting characters overlap
+         *  @param[in] delim An array of  delimiters to try parsing the CSV with
          */
-        CSVFormat& delimiter(char delim);
+        CSVFormat& delimiter(const std::vector<char> & delim);
 
         /** Sets a list of potential delimiters
-         *  
+         *
          *  @throws `std::runtime_error` thrown if trim, quote, or possible delimiting characters overlap
          *  @param[in] delim An array of possible delimiters to try parsing the CSV with
          */
-        CSVFormat& delimiter(const std::vector<char> & delim);
+        CSVFormat& possible_delimiter(const std::vector<char> & delim);
 
         /** Sets the whitespace characters to be trimmed
          *
@@ -105,14 +106,6 @@ namespace csv {
         }
 
         #ifndef DOXYGEN_SHOULD_SKIP_THIS
-        char get_delim() const {
-            // This error should never be received by end users.
-            if (this->possible_delimiters.size() > 1) {
-                throw std::runtime_error("There is more than one possible delimiter.");
-            }
-
-            return this->possible_delimiters.at(0);
-        }
 
         CONSTEXPR bool is_quoting_enabled() const { return !this->no_quote; }
         CONSTEXPR char get_quote_char() const { return this->quote_char; }
@@ -121,30 +114,31 @@ namespace csv {
         std::vector<char> get_trim_chars() const { return this->trim_chars; }
         CONSTEXPR VariableColumnPolicy get_variable_column_policy() const { return this->variable_column_policy; }
         #endif
-        
+
         /** CSVFormat for guessing the delimiter */
         CSV_INLINE static CSVFormat guess_csv() {
             CSVFormat format;
-            format.delimiter({ ',', '|', '\t', ';', '^' })
+            format.possible_delimiter({ ',', '|', '\t', ';', '^' })
                 .quote('"')
                 .header_row(0);
 
             return format;
         }
 
-        bool guess_delim() {
-            return this->possible_delimiters.size() > 1;
+        bool guess_delim() const {
+            return is_default_delimiter_;
         }
 
         friend CSVReader;
         friend internals::IBasicCSVParser;
-        
+
     private:
         /**< Throws an error if delimiters and trim characters overlap */
         void assert_no_char_overlap();
 
         /**< Set of possible delimiters */
         std::vector<char> possible_delimiters = { ',' };
+        bool is_default_delimiter_{true};
 
         /**< Set of whitespace characters to trim */
         std::vector<char> trim_chars = {};

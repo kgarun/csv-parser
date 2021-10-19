@@ -185,7 +185,7 @@ TEST_CASE("Test Whitespace Trimming", "[read_csv_trim]") {
         CSVFormat format;
         format.header_row(0)
             .trim({ '\t', ' ' })
-            .delimiter(',');
+            .delimiter({','});
 
         auto rows = parse(row_str, format);
         CSVRow row;

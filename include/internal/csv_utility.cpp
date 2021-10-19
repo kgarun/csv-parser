@@ -69,7 +69,7 @@ namespace csv {
         CSVFileInfo info = {
             filename,
             reader.get_col_names(),
-            format.get_delim(),
+            format.get_possible_delims().front(),
             reader.n_rows(),
             reader.get_col_names().size()
         };
