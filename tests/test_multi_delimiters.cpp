@@ -2,27 +2,26 @@
 // Created by arun-8593 on 19/10/21.
 //
 
-#include "csv.hpp"
-#include <iostream>
 #include "catch.hpp"
+#include "csv.hpp"
+#include "util.hpp"
+#include <iostream>
 
 using namespace csv;
 
 TEST_CASE ("Test CSV with Multiple Delimiters", "[test_multiple_delimiters]") {
     CSVFormat format;
     format.delimiter ({ ',', ' ' }).no_header ().trim ({ '\t' });
-    CSVReader reader ("/Users/arun-8593/CLionProjects/dummy/tests/samples/delimiter_separted_file.csv", format);
+    CSVReader reader (GetAbsolutePath ("/tests/samples/delimiter_separted_file.csv"), format);
 
     REQUIRE (format.get_delims ().size () == 2);
     REQUIRE (format.get_delims ().front () == ',');
     REQUIRE (format.get_delims ().back () == ' ');
 
-    std::vector<std::vector<std::string>> expected{
-        { "1.2999", "an", "cd", "zoho@zohocorp.com", "3", "\"zoho\" \"on\" \" zoho \"" },
-        { "1", "1/2", "01/01/00", "this string\nspans to\nmultiple lines", "88", "7777000" },
-        { "", "", "", "", "" },
-        { "29u29", "", "\"", "some \"\nstring", "xx" }
-    };
+    std::vector<std::vector<std::string>> expected{ { "1.2999", "an", "cd", "zoho@zohocorp.com", "3", "\"zoho\" \"on\" \" zoho \"" },
+                                                    { "1", "1/2", "01/01/00", "this string\nspans to\nmultiple lines", "88", "7777000" },
+                                                    { "", "", "", "", "" },
+                                                    { "29u29", "", "\"", "some \"\nstring", "xx" } };
 
     std::vector<std::vector<std::string>> actual;
     int row_index = 0;
@@ -41,4 +40,3 @@ TEST_CASE ("Test CSV with Multiple Delimiters", "[test_multiple_delimiters]") {
 
     REQUIRE (expected == actual);
 }
-

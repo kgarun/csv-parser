@@ -19,6 +19,8 @@ endif()
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads QUIET REQUIRED)
 
+add_compile_definitions(CSV_PARSER_ROOT=${CMAKE_CURRENT_SOURCE_DIR})
+
 if(MSVC)
 	# Make Visual Studio report accurate C++ version
 	# See: https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
