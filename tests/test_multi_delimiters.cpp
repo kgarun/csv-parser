@@ -2,42 +2,26 @@
 // Created by arun-8593 on 19/10/21.
 //
 
-#include "catch.hpp"
 #include "csv.hpp"
 #include <iostream>
 
 using namespace csv;
 
-TEST_CASE ("Test CSV with Multiple Delimiters", "[test_multiple_delimiters]") {
+int main () {
     CSVFormat format;
     format.delimiter ({ ',', ' ' }).no_header ().trim ({ '\t' });
-    CSVReader reader ("/Users/arun-8593/CLionProjects/csv-parser/tests/samples/delimiter_separted_file.csv", format);
+    CSVReader reader ("/Users/arun-8593/CLionProjects/CSV/delimiter_separted_file.csv", format);
 
-    REQUIRE (format.get_delims ().size () == 2);
-    REQUIRE (format.get_delims ().front () == ',');
-    REQUIRE (format.get_delims ().back () == ' ');
-
-    std::vector<std::vector<std::string>> expected{
-        { "1.2999", "an", "cd", "zoho@zohocorp.com", "3", "\"zoho\" \"on\" \" zoho \"" },
-        { "1", "1/2", "01/01/00", "this string\nspans to \nmultiple lines", "88", "7777000" },
-        { "", "", "", "", "" },
-        { "29u29", "", "\"", "some \"\nstring", "xx" }
-    };
-
-    std::vector<std::vector<std::string>> actual;
-    int row_index = 0;
-    actual.resize (expected.size ());
+    for (auto c : reader.get_format ().get_delims ()) {
+        std::cout << "ch:" << c << '\n';
+    }
 
     for (CSVRow &row : reader) {
         for (CSVField &field : row) {
-            actual[row_index].emplace_back (field.get ());
+            std::cout << field.get_sv () << " | ";
         }
-        ++row_index;
+        std::cout << "\n-------------------------\n";
     }
 
-    for (size_t row = 0; row < reader.n_rows (); ++row) {
-        if (expected[row] != actual[row]) std::cout << row << '\n';
-    }
-
-    REQUIRE (expected == actual);
+    return 0;
 }

@@ -18,7 +18,6 @@ target_sources(csv_test
         test_data_type.cpp
         test_raw_csv_data.cpp
         test_round_trip.cpp
-        test_multi_delimiters.cpp
     )
 target_link_libraries(csv_test csv)
 
@@ -36,3 +35,6 @@ add_test(
     COMMAND csv_test
     WORKING_DIRECTORY ${CSV_ROOT_DIR}
 )
+
+add_executable(test_multi_delimiters test_multi_delimiters.cpp)
+target_link_libraries(test_multi_delimiters csv)
