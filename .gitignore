@@ -99,3 +99,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/cmake-build-debug/
+/cmake-build-release/
+/tests/samples/.~lock.delimiter_separted_file.csv#
+/tests/.~*
