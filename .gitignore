@@ -99,3 +99,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/tests/samples/.~lock.delimiter_separted_file.csv#

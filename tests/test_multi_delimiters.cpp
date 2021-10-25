@@ -11,7 +11,7 @@ using namespace csv;
 TEST_CASE ("Test CSV with Multiple Delimiters", "[test_multiple_delimiters]") {
     CSVFormat format;
     format.delimiter ({ ',', ' ' }).no_header ().trim ({ '\t' });
-    CSVReader reader ("/Users/arun-8593/CLionProjects/csv-parser/tests/data/fake_data/delimiter_separted_file.csv", format);
+    CSVReader reader ("/Users/arun-8593/CLionProjects/csv-parser/tests/samples/delimiter_separted_file.csv", format);
 
     REQUIRE (format.get_delims ().size () == 2);
     REQUIRE (format.get_delims ().front () == ',');
