@@ -16,21 +16,21 @@ using std::string;
 //
 TEST_CASE("guess_delim() Test - Pipe", "[test_guess_pipe]") {
     CSVGuessResult format = guess_format(
-        "/Users/arun-8593/CLionProjects/csv-parser/tests/data//real_data/2009PowerStatus.txt");
+        "/Users/arun-8593/CLionProjects/dummy/tests/data//real_data/2009PowerStatus.txt");
     REQUIRE(format.delim == '|');
     REQUIRE(format.header_row == 0);
 }
 
 TEST_CASE("guess_delim() Test - Semi-Colon", "[test_guess_scolon]") {
     CSVGuessResult format = guess_format(
-        "/Users/arun-8593/CLionProjects/csv-parser/tests/data//real_data/YEAR07_CBSA_NAC3.txt");
+        "/Users/arun-8593/CLionProjects/dummy/tests/data//real_data/YEAR07_CBSA_NAC3.txt");
     REQUIRE(format.delim == ';');
     REQUIRE(format.header_row == 0);
 }
 
 TEST_CASE("guess_delim() Test - CSV with Comments", "[test_guess_comment]") {
     CSVGuessResult format = guess_format(
-        "/Users/arun-8593/CLionProjects/csv-parser/tests/data//fake_data/ints_comments.csv");
+        "/Users/arun-8593/CLionProjects/dummy/tests/data//fake_data/ints_comments.csv");
     REQUIRE(format.delim == ',');
     REQUIRE(format.header_row == 5);
 }

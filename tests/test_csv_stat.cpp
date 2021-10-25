@@ -2,7 +2,7 @@
 #include "csv.hpp"
 using namespace csv;
 
-const std::string PERSONS_CSV = "/Users/arun-8593/CLionProjects/csv-parser/tests/data//mimesis_data/persons.csv";
+const std::string PERSONS_CSV = "/Users/arun-8593/CLionProjects/dummy/tests/data//mimesis_data/persons.csv";
 
 TEST_CASE("Calculating Statistics from Direct Input", "[read_csv_stat_direct]" ) {
     std::string int_str;
@@ -38,8 +38,8 @@ TEST_CASE("Calculating Statistics from Direct Input", "[read_csv_stat_direct]" )
 TEST_CASE( "Statistics - Rows of Integers", "[read_csv_stat]" ) {
     // Header on first row
     auto file = GENERATE(as<std::string> {},
-        "/Users/arun-8593/CLionProjects/csv-parser/tests/data//fake_data/ints.csv",
-        "/Users/arun-8593/CLionProjects/csv-parser/tests/data//fake_data/ints_newline_sep.csv"
+        "/Users/arun-8593/CLionProjects/dummy/tests/data//fake_data/ints.csv",
+        "/Users/arun-8593/CLionProjects/dummy/tests/data//fake_data/ints_newline_sep.csv"
     );
 
     SECTION("Compute Statistics") {

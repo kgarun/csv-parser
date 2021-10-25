@@ -27,7 +27,7 @@ namespace csv {
          *  ASCII number for a character and, v[i + 128] labels it according to
          *  the CSVReader::ParseFlags enum
          */
-        HEDLEY_CONST CONSTEXPR_17 ParseFlagMap make_parse_flags(const std::vector<char>& delimiters) {
+         inline ParseFlagMap make_parse_flags(const std::vector<char>& delimiters) {
             std::array<ParseFlags, 256> ret = {};
             for (int i = -128; i < 128; i++) {
                 const int arr_idx = i + 128;
@@ -48,7 +48,7 @@ namespace csv {
          *  ASCII number for a character and, v[i + 128] labels it according to
          *  the CSVReader::ParseFlags enum
          */
-        HEDLEY_CONST CONSTEXPR_17 ParseFlagMap make_parse_flags(const std::vector<char>& delimiters, char quote_char) {
+        inline ParseFlagMap make_parse_flags(const std::vector<char>& delimiters, char quote_char) {
             std::array<ParseFlags, 256> ret = make_parse_flags(delimiters);
             ret[(size_t)quote_char + 128] = ParseFlags::QUOTE;
             return ret;
@@ -58,7 +58,7 @@ namespace csv {
          *  ASCII number for a character c and, v[i + 128] is true if
          *  c is a whitespace character
          */
-        HEDLEY_CONST CONSTEXPR_17 WhitespaceMap make_ws_flags(const char* ws_chars, size_t n_chars) {
+        inline WhitespaceMap make_ws_flags(const char* ws_chars, size_t n_chars) {
             std::array<bool, 256> ret = {};
             for (int i = -128; i < 128; i++) {
                 const int arr_idx = i + 128;
