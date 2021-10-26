@@ -11,11 +11,11 @@ using namespace csv;
 
 TEST_CASE ("Test CSV with Space Delimiter") {
     CSVFormat format;
-    format.delimiter ({ ' ' }).no_header ();
+    format.delimiter ({ ' ' }).header_row (1);
     CSVReader reader (GetAbsolutePath ("/tests/samples/space_separated.csv"), format);
 
-    REQUIRE (format.get_delims ().size () == 1);
-    REQUIRE (format.get_delims ().back () == ' ');
+    REQUIRE (reader.get_format ().get_delims ().size () == 1);
+    REQUIRE (reader.get_format ().get_delims ().back () == ' ');
 
     std::vector<std::vector<std::string>> expected{ { "Ruturaj Gaikwad", "c Shivam Mavi, b Narine", "32" },
                                                     { "du Plessis", "c Venkatesh Iyer, b Shivam Mavi", "86" },
@@ -42,11 +42,11 @@ TEST_CASE ("Test CSV with Space Delimiter") {
 
 TEST_CASE ("Guess Space Delimiter") {
     CSVFormat format;
-    format.no_header ().trim ({ '\t' });
+    format.possible_delimiter ({ ';', ' ', '|' }).no_header ();
     CSVReader reader (GetAbsolutePath ("/tests/samples/space_separated.csv"), format);
 
-    REQUIRE (format.get_delims ().size () == 1);
-    REQUIRE (format.get_delims ().back () == ' ');
+    //    REQUIRE (reader.get_format ().get_delims ().size () == 1);
+    //    REQUIRE (reader.get_format ().get_delims ().back () == ' ');
 
     std::vector<std::vector<std::string>> expected{ { "Ruturaj Gaikwad", "c Shivam Mavi, b Narine", "32" },
                                                     { "du Plessis", "c Venkatesh Iyer, b Shivam Mavi", "86" },
@@ -84,6 +84,42 @@ TEST_CASE ("Test CSV with Multiple Delimiters") {
                                                     { "1", "1/2", "01/01/00", "this string\nspans to\nmultiple lines", "88", "7777000" },
                                                     { "", "", "", "", "" },
                                                     { "29u29", "", "\"", "some \"\nstring", "xx" } };
+
+    std::vector<std::vector<std::string>> actual;
+    int row_index = 0;
+    actual.resize (expected.size ());
+
+    for (CSVRow &row : reader) {
+        for (CSVField &field : row) {
+            actual[row_index].emplace_back (field.get ());
+        }
+        ++row_index;
+    }
+
+    for (size_t row = 0; row < reader.n_rows (); ++row) {
+        if (expected[row] != actual[row]) std::cout << row << '\n';
+    }
+
+    REQUIRE (expected == actual);
+}
+
+TEST_CASE ("Test Basic CSV") {
+    CSVFormat format;
+    format.delimiter ({ ',' }).no_header ().quote ('\"');
+    CSVReader reader (GetAbsolutePath ("/tests/samples/basic_rules.csv"), format);
+
+    REQUIRE (format.get_delims ().size () == 1);
+    REQUIRE (format.get_delims ().front () == ',');
+
+    std::vector<std::vector<std::string>> expected{ { "1997", "Ford", "E350" },
+                                                    { "1997", "Ford", "E350" },
+                                                    { "1997", "Ford", "E350", "Super, luxurious truck" },
+                                                    { "1997", "Ford", "E350", "Super, \"luxurious\" truck" },
+                                                    { "1997", "Ford", "E350", "Go get one now\nthey are going fast" },
+                                                    { "1997", " Ford", " E350" },
+                                                    { "1997", "Ford", "E350" },
+                                                    { "1997", "Ford", "E350", " Super luxurious truck " },
+                                                    { "Paris", "48°51\'24\"N", "2°21\'03\"E" } };
 
     std::vector<std::vector<std::string>> actual;
     int row_index = 0;

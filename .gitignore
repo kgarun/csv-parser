@@ -103,3 +103,4 @@ $RECYCLE.BIN/
 /cmake-build-release/
 /tests/samples/.~lock.delimiter_separted_file.csv#
 /tests/.~*
+/tests/samples/.~lock.basic_rules.csv#
