@@ -37,7 +37,7 @@ TEST_CASE ("Prevent Column Names From Being Overwritten", "[csv_col_names_overwr
         CSVFormat format_out = reader.get_format ();
         REQUIRE (reader.get_col_names () == column_names);
         REQUIRE (format_out.get_delims ().front () == ',');
-        REQUIRE (format_out.get_header () == 5);
+        REQUIRE (format_out.get_header () == -1);
     }
 }
 

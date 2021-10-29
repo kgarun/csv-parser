@@ -11,7 +11,7 @@ using namespace csv;
 
 TEST_CASE ("Test CSV with Space Delimiter") {
     CSVFormat format;
-    format.delimiter ({ ' ' }).header_row (1);
+    format.delimiter ({ ' ' }).no_header();
     CSVReader reader (GetAbsolutePath ("/tests/samples/space_separated.csv"), format);
 
     REQUIRE (reader.get_format ().get_delims ().size () == 1);
@@ -117,7 +117,7 @@ TEST_CASE ("Test Basic CSV") {
                                                     { "1997", "Ford", "E350", "Super, \"luxurious\" truck" },
                                                     { "1997", "Ford", "E350", "Go get one now\nthey are going fast" },
                                                     { "1997", " Ford", " E350" },
-                                                    { "1997", "Ford", "E350" },
+                                                    { "1997", " \"Ford\" ", "E350" },
                                                     { "1997", "Ford", "E350", " Super luxurious truck " },
                                                     { "Paris", "48°51\'24\"N", "2°21\'03\"E" } };
 
